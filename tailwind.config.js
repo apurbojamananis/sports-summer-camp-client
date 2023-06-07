@@ -2,7 +2,13 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      hover: ["responsive"],
+      fontFamily: {
+        primary: ["Oswald", "sans-serif"],
+        secondary: ["Heebo", "sans-serif"],
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
