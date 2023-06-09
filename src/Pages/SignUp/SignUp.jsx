@@ -6,20 +6,23 @@ import {
   FaEnvelope,
   FaEye,
   FaEyeSlash,
-  FaGoogle,
   FaLink,
   FaLock,
   FaMobile,
   FaUser,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, googleSignIn } =
-    useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const [passwordShow, setPasswordShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
+  const navigate = useNavigate();
+  const [axiosSecure] = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -36,7 +39,34 @@ const SignUp = () => {
       .then((result) => {
         const createdUser = result.user;
         console.log(createdUser);
-        updateUserProfile(createdUser, data.name, data.photoUrl);
+
+        updateUserProfile(createdUser, data.name, data.photoUrl).then(() => {
+          const saveUserData = {
+            name: data.name,
+            emaiL: data.email,
+            photoUrl: data.photoUrl,
+          };
+
+          axiosSecure
+            .post("/users", saveUserData)
+            .then((res) => {
+              console.log(res);
+              if (res.data.insertedId) {
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "User Created Successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+                // logout();
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -45,9 +75,6 @@ const SignUp = () => {
     reset();
   };
 
-  const handleGooglSingIn = () => {
-    googleSignIn().then(() => {});
-  };
   const handlePasswordShow = () => {
     setPasswordShow(!passwordShow);
   };
@@ -268,7 +295,7 @@ const SignUp = () => {
               <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/5"></span>
             </div>
 
-            <div className="flex items-center mt-6 -mx-2">
+            {/* <div className="flex items-center mt-6 -mx-2">
               <button
                 type="button"
                 onClick={handleGooglSingIn}
@@ -280,7 +307,9 @@ const SignUp = () => {
                   Sign in with Google
                 </span>
               </button>
-            </div>
+            </div> */}
+
+            <SocialLogin></SocialLogin>
 
             <div className="mt-6 text-center ">
               <p className="mt-8 text-xs font-light text-center text-gray-400">

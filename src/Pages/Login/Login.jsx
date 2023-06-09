@@ -1,14 +1,16 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-  const { login, googleSignIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     login(data.email, data.password)
@@ -16,6 +18,7 @@ const Login = () => {
         const loggedUser = result.user;
         console.log(loggedUser);
         Swal.fire("Login Successfully!");
+        navigate("/");
         reset();
       })
       .catch((error) => {
@@ -23,9 +26,6 @@ const Login = () => {
       });
   };
 
-  const handleGooglSingIn = () => {
-    googleSignIn().then(() => {});
-  };
   const handleShow = () => {
     setShow(!show);
   };
@@ -114,17 +114,7 @@ const Login = () => {
           <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/5"></span>
         </div>
 
-        <div className="flex items-center mt-6 -mx-2">
-          <button
-            onClick={handleGooglSingIn}
-            type="button"
-            className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
-          >
-            <FaGoogle></FaGoogle>
-
-            <span className="hidden mx-2 sm:inline">Sign in with Google</span>
-          </button>
-        </div>
+        <SocialLogin></SocialLogin>
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
           {" "}
