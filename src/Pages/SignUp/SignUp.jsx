@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   FaPeopleArrows,
@@ -13,8 +13,10 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const SignUp = () => {
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const [passwordShow, setPasswordShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
   const {
@@ -28,6 +30,17 @@ const SignUp = () => {
   const confirmPassword = watch("confirmPassword");
   const onSubmit = (data) => {
     console.log(data);
+
+    createUser(data.email, data.password)
+      .then((result) => {
+        const createdUser = result.user;
+        console.log(createdUser);
+        updateUserProfile(createdUser, data.name, data.photoUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     reset();
   };
 
