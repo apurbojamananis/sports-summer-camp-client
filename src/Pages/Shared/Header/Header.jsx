@@ -26,16 +26,32 @@ const Header = () => {
                 className="z-50 menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-black"
               >
                 <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                  <Link>Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                  <Link>Instructors</Link>
+                  <Link to="instructors">Instructors</Link>
                 </li>
                 <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                  <Link>Classes</Link>
+                  <Link to="classes">Classes</Link>
+                </li>
+
+                <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
+                  <Link to="manage-classes">Manage Classes </Link>
                 </li>
                 <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                  <Link>Dashboard </Link>
+                  <Link to="manage-users">Manage Users </Link>
+                </li>
+                <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
+                  <Link to="add-class">Add a Class </Link>
+                </li>
+                <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
+                  <Link to="manage-classes">Manage Classes</Link>
+                </li>
+                <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
+                  <Link to="selected-classes">My Selected Classes</Link>
+                </li>
+                <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
+                  <Link to="enrolled classes">My Enrolled Classes</Link>
                 </li>
               </ul>
             </div>
@@ -46,31 +62,81 @@ const Header = () => {
           <div className="navbar-center hidden lg:flex font-primary font-medium">
             <ul className="flex ">
               <li className=" py-2 rounded mx-1 ">
-                <Link className="hover:border-b-4 border-white pb-2 px-2">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="/"
+                >
                   {" "}
                   Home
                 </Link>
               </li>
-              <li className=" px-3 py-2 rounded mx-1">
-                <Link className="hover:border-b-4 border-white pb-2 px-2">
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="instructions"
+                >
                   {" "}
                   Instructors
                 </Link>
               </li>
-              <li className=" px-3 py-2 rounded mx-1">
-                <Link className="hover:border-b-4 border-white pb-2 px-2">
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="classes"
+                >
                   {" "}
                   Classes
                 </Link>
               </li>
-              {user && (
-                <li className=" px-3 py-2 rounded mx-1">
-                  <Link className="hover:border-b-4 border-white pb-2 px-2">
-                    {" "}
-                    Dashboard{" "}
-                  </Link>
-                </li>
-              )}
+
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="manage-classes"
+                >
+                  Manage Classes
+                </Link>
+              </li>
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="manage-users"
+                >
+                  Manage Users
+                </Link>
+              </li>
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="add-class"
+                >
+                  Add a Class
+                </Link>
+              </li>
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="manage-classes"
+                >
+                  Mange Classes
+                </Link>
+              </li>
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="selected-classes"
+                >
+                  My Selected Classes
+                </Link>
+              </li>
+              <li className=" px-2 py-2 rounded mx-1">
+                <Link
+                  className="hover:border-b-4 border-white pb-2 px-2"
+                  to="enrolled-classes"
+                >
+                  My Enrolled Classes
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="navbar-end mr-0">
@@ -78,7 +144,7 @@ const Header = () => {
               <div className="dropdown dropdown-end">
                 <label
                   tabIndex={0}
-                  className="btn btn-neutral btn-circle avatar  "
+                  className="btn btn-neutral btn-circle avatar "
                 >
                   <div className="w-10 rounded-full">
                     {user ? (
