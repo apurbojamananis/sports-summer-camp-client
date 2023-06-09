@@ -1,39 +1,147 @@
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+
 const Footer = () => {
   return (
-    <div className="bg-neutral ">
-      <div className="container mx-auto">
-        <footer className="footer p-10  bg-neutral text-neutral-content">
-          <div>
-            <img src="./WhiteLogo.png" alt="" />
-            <p>
-              ChampPlay Sports Ltd.
-              <br />
-              Providing reliable tech since 1992
-            </p>
+    <footer className="bg-white dark:bg-gray-900 border-t-2">
+      <div className="container p-6 mx-auto">
+        <div className="lg:flex">
+          <div className="w-full -mx-6 lg:w-2/5">
+            <div className="px-6">
+              <a href="#">
+                <img className="w-auto h-7" src="./BlackLogo.png" alt="" />
+              </a>
+
+              <p className="max-w-sm mt-2 text-gray-500 dark:text-gray-400">
+                Join 31,000+ other and never miss out on new tips, tutorials,
+                and more.
+              </p>
+
+              <div className="flex mt-6 -mx-2">
+                <a
+                  href="#"
+                  className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                  aria-label="Reddit"
+                >
+                  <FaFacebook></FaFacebook>
+                </a>
+
+                <a
+                  href="#"
+                  className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                  aria-label="Facebook"
+                >
+                  <FaInstagram></FaInstagram>
+                </a>
+
+                <a
+                  href="#"
+                  className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                  aria-label="Github"
+                >
+                  <FaLinkedin></FaLinkedin>
+                </a>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="footer-title">Services</span>
-            <a className="link link-hover">Branding</a>
-            <a className="link link-hover">Design</a>
-            <a className="link link-hover">Marketing</a>
-            <a className="link link-hover">Advertisement</a>
+
+          <div className="mt-6 lg:mt-0 lg:flex-1">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <div>
+                <h3 className="text-gray-700 uppercase dark:text-white">
+                  About
+                </h3>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Company
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  community
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Careers
+                </a>
+              </div>
+
+              <div>
+                <h3 className="text-gray-700 uppercase dark:text-white">
+                  Blog
+                </h3>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Tec
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Music
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Videos
+                </a>
+              </div>
+
+              <div>
+                <h3 className="text-gray-700 uppercase dark:text-white">
+                  Products
+                </h3>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Mega cloud
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Aperion UI
+                </a>
+                <a
+                  href="#"
+                  className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                >
+                  Meraki UI
+                </a>
+              </div>
+
+              <div>
+                <h3 className="text-gray-700 uppercase dark:text-white">
+                  Contact
+                </h3>
+                <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
+                  +1 526 654 8965
+                </span>
+                <span className="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">
+                  example@email.com
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="footer-title">Company</span>
-            <a className="link link-hover">About us</a>
-            <a className="link link-hover">Contact</a>
-            <a className="link link-hover">Jobs</a>
-            <a className="link link-hover">Press kit</a>
-          </div>
-          <div>
-            <span className="footer-title">Legal</span>
-            <a className="link link-hover">Terms of use</a>
-            <a className="link link-hover">Privacy policy</a>
-            <a className="link link-hover">Cookie policy</a>
-          </div>
-        </footer>
+        </div>
+
+        <hr className="h-px my-6 bg-gray-200 border-none dark:bg-gray-700" />
+
+        <div>
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            © Copyright 2023 - All rights reserved
+          </p>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

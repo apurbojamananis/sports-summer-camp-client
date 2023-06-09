@@ -5,8 +5,8 @@ export default {
     extend: {
       hover: ["responsive"],
       fontFamily: {
-        primary: ["Oswald", "sans-serif"],
-        secondary: ["Heebo", "sans-serif"],
+        primary: ["Playfair Display", "sans-serif"],
+        secondary: ["Fira Sans", "sans-serif"],
       },
     },
   },
