@@ -16,7 +16,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, googleSignIn } =
+    useContext(AuthContext);
   const [passwordShow, setPasswordShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
   const {
@@ -44,6 +45,9 @@ const SignUp = () => {
     reset();
   };
 
+  const handleGooglSingIn = () => {
+    googleSignIn().then(() => {});
+  };
   const handlePasswordShow = () => {
     setPasswordShow(!passwordShow);
   };
@@ -267,6 +271,7 @@ const SignUp = () => {
             <div className="flex items-center mt-6 -mx-2">
               <button
                 type="button"
+                onClick={handleGooglSingIn}
                 className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
               >
                 <FaGoogle></FaGoogle>

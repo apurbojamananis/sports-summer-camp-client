@@ -7,6 +7,8 @@ import {
   updateProfile,
   onAuthStateChanged,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 export const AuthContext = createContext();
@@ -17,10 +19,28 @@ const AuthProvider = ({ children }) => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const updateUserProfile = (user, name, photo) => {
+    setLoading(true);
+    return updateProfile(user, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
+  const login = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logout = () => {
+    setLoading(true);
+    return signOut(auth);
   };
 
   useEffect(() => {
@@ -34,19 +54,9 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const updateUserProfile = (user, name, photo) => {
-    return updateProfile(user, {
-      displayName: name,
-      photoURL: photo,
-    });
-  };
-  const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const logout = () => {
+  const googleSignIn = () => {
     setLoading(true);
-    return signOut(auth);
+    return signInWithPopup(auth, googleProvider);
   };
   const authInfo = {
     user,
@@ -55,6 +65,7 @@ const AuthProvider = ({ children }) => {
     updateUserProfile,
     login,
     logout,
+    googleSignIn,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const Login = () => {
   const [show, setShow] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-  const { login } = useContext(AuthContext);
+  const { login, googleSignIn } = useContext(AuthContext);
 
   const onSubmit = (data) => {
     login(data.email, data.password)
@@ -23,6 +23,9 @@ const Login = () => {
       });
   };
 
+  const handleGooglSingIn = () => {
+    googleSignIn().then(() => {});
+  };
   const handleShow = () => {
     setShow(!show);
   };
@@ -113,6 +116,7 @@ const Login = () => {
 
         <div className="flex items-center mt-6 -mx-2">
           <button
+            onClick={handleGooglSingIn}
             type="button"
             className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
           >

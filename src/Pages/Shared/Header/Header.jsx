@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUserAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import Swal from "sweetalert2";
@@ -79,7 +79,13 @@ const Header = () => {
                   className="btn btn-neutral btn-circle avatar  "
                 >
                   <div className="w-10 rounded-full">
-                    <img src="https://randomuser.me/api/portraits/thumb/men/30.jpg" />
+                    {user ? (
+                      <img src={user.photoURL} />
+                    ) : (
+                      <span className=" mt-1 flex justify-center">
+                        <FaUserAlt className="text-3xl"></FaUserAlt>
+                      </span>
+                    )}
                   </div>
                 </label>
                 <ul
