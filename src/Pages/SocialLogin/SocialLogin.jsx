@@ -15,6 +15,7 @@ const SocialLogin = () => {
         name: loggedUser.displayName,
         email: loggedUser.email,
         photoUrl: loggedUser.photoURL,
+        role: "student",
       };
 
       fetch("http://localhost:5000/users", {

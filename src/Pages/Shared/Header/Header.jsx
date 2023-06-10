@@ -15,6 +15,7 @@ const Header = () => {
 
   const isAdmin = true;
   const isInstructor = false;
+  const isStudent = false;
 
   return (
     <div className="bg-[#212733] text-white">
@@ -55,11 +56,11 @@ const Header = () => {
                       <Link to="add-class">Add a Class </Link>
                     </li>
                     <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                      <Link to="manage-classes">Manage Classes</Link>
+                      <Link to="my-classes">My Classes</Link>
                     </li>
                   </>
                 )}
-                {user && !isAdmin && (
+                {user && isStudent && (
                   <>
                     <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
                       <Link to="selected-classes">My Selected Classes</Link>
@@ -138,14 +139,14 @@ const Header = () => {
                   <li className=" px-2 py-2 rounded mx-1">
                     <Link
                       className="hover:border-b-4 border-white pb-2 px-2"
-                      to="manage-classes"
+                      to="my-classes"
                     >
-                      Mange Classes
+                      My Classes
                     </Link>
                   </li>
                 </>
               )}
-              {user && (
+              {user && isStudent && (
                 <>
                   <li className=" px-2 py-2 rounded mx-1">
                     <Link

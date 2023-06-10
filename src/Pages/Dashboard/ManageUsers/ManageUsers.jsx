@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
+import Swal from "sweetalert2";
+
 const ManageUsers = () => {
   const [axiosSecure] = useAxiosSecure();
   const { data: users = [], refetch } = useQuery(["users"], async () => {
@@ -9,6 +11,37 @@ const ManageUsers = () => {
   });
 
   console.log(users);
+  const handleRole = async (user, role) => {
+    try {
+      const response = await axiosSecure.patch(`/users/admin/${user._id}`, {
+        role,
+      });
+      console.log(response.data);
+
+      if (response.data.modifiedCount) {
+        refetch();
+        if (role === "Admin") {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `WOW! ${user.name}, You are now an Admin!`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `WOW! ${user.name}, You are now an Instructor!`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="container mx-auto min-h-screen">
@@ -81,42 +114,72 @@ const ManageUsers = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      <tr>
-                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                          <span>1</span>
-                        </td>
-                        <td>
-                          <div className="flex items-center gap-x-2">
-                            <img
-                              className="object-cover w-10 h-10 rounded-full"
-                              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td>
-                          <h2 className="font-medium text-gray-800 dark:text-white ">
-                            Arthur Melo
-                          </h2>
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          authurmelo@example.com
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          Student
-                        </td>
+                      {users.map((user, index) => (
+                        <tr key={user._id}>
+                          <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                            <span>{index + 1}</span>
+                          </td>
+                          <td>
+                            <div className="flex items-center gap-x-2">
+                              <img
+                                className="object-cover w-10 h-10 rounded-full"
+                                src={user.photoUrl}
+                                alt=""
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <h2 className="font-medium text-gray-800 dark:text-white ">
+                              {user.name}
+                            </h2>
+                          </td>
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            {user.email}
+                          </td>
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            {user.role}
+                          </td>
 
-                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button className="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
-                            Admin
-                          </button>
-                        </td>
-                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button className="px-3 py-1 text-xs text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
-                            Instructor
-                          </button>
-                        </td>
-                      </tr>
+                          <td className="px-4 py-4 text-sm whitespace-nowrap">
+                            <button
+                              onClick={() => {
+                                handleRole(user, "Admin");
+                              }}
+                              className={`px-3 py-1 text-xs rounded-full ${
+                                user.role === "Instructor" ||
+                                user.role === "Admin"
+                                  ? "bg-gray-200 text-gray-600"
+                                  : "text-indigo-500 dark:bg-gray-800 bg-indigo-100/60"
+                              }`}
+                              disabled={
+                                user.role === "Instructor" ||
+                                user.role === "Admin"
+                              }
+                            >
+                              Admin
+                            </button>
+                          </td>
+                          <td className="px-4 py-4 text-sm whitespace-nowrap ">
+                            <button
+                              onClick={() => {
+                                handleRole(user, "Instructor");
+                              }}
+                              className={`px-3 py-1 text-xs rounded-full ${
+                                user.role === "Instructor" ||
+                                user.role === "Admin"
+                                  ? "bg-gray-200 text-gray-600"
+                                  : "text-indigo-500 dark:bg-gray-800 bg-indigo-100/60"
+                              }`}
+                              disabled={
+                                user.role === "Instructor" ||
+                                user.role === "Admin"
+                              }
+                            >
+                              Instructor
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

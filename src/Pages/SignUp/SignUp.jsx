@@ -36,37 +36,41 @@ const SignUp = () => {
     console.log(data);
 
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         const createdUser = result.user;
         console.log(createdUser);
 
-        updateUserProfile(createdUser, data.name, data.photoUrl).then(() => {
+        try {
+          await updateUserProfile(createdUser, data.name, data.photoUrl);
+
           const saveUserData = {
-            name: data.name,
-            emaiL: data.email,
-            photoUrl: data.photoUrl,
+            name: createdUser.displayName,
+            email: createdUser.email,
+            photoUrl: createdUser.photoURL,
+            role: "student",
           };
 
-          axiosSecure
-            .post("/users", saveUserData)
-            .then((res) => {
-              console.log(res);
-              if (res.data.insertedId) {
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "User Created Successfully",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                navigate("/");
-                // logout();
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+          console.log(saveUserData);
+
+          try {
+            const res = await axiosSecure.post("/users", saveUserData);
+            console.log(res);
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "User Created Successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       })
       .catch((error) => {
         console.log(error);
