@@ -39,6 +39,7 @@ const AddClasses = () => {
             email: user.email,
             availableSeats: parseInt(availableSeats),
             price: parseFloat(price),
+            status: "Pending",
           };
           console.log(newClass);
 

@@ -24,8 +24,8 @@ const Header = () => {
   //   setIsStudent(true);
   // }
 
-  const isAdmin = false;
-  const isInstructor = true;
+  const isAdmin = true;
+  const isInstructor = false;
   const isStudent = false;
 
   const handleLogout = () => {
