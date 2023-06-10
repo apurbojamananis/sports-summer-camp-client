@@ -47,7 +47,7 @@ const SignUp = () => {
             name: createdUser.displayName,
             email: createdUser.email,
             photoUrl: createdUser.photoURL,
-            role: "student",
+            role: "Student",
           };
 
           console.log(saveUserData);
