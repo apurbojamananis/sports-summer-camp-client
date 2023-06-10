@@ -1,7 +1,48 @@
-// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useQuery } from "react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageClasses = () => {
-    // const [axiosSecure] = useAxiosSecure();
+  const [axiosSecure] = useAxiosSecure();
+  const { data: allClasses = [], refetch } = useQuery(["users"], async () => {
+    const res = await axiosSecure.get("/allClasses");
+    return res.data;
+  });
+  // console.log(allClasses);
+
+  const handleStatus = async (id, status) => {
+    console.log(id, status);
+    try {
+      const response = await axiosSecure.patch(`/allClasses/status/${id}`, {
+        status,
+      });
+      console.log(response.data);
+
+      if (response.data.modifiedCount) {
+        refetch();
+        if (status === "Approved") {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `WOW! Class has been Approved`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            position: "Denied",
+            icon: "success",
+            title: `Opps! Class has been denied`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <div className="container mx-auto min-h-screen">
@@ -9,11 +50,11 @@ const ManageClasses = () => {
           <section className="container px-4 mx-auto mt-20">
             <div className="flex items-center gap-x-3 justify-center">
               <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-                Team members
+                Total Class
               </h2>
 
               <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-                100 users
+                {allClasses.length}
               </span>
             </div>
 
@@ -77,72 +118,81 @@ const ManageClasses = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                        {/* {users.map((user, index) => (
-                        <tr key={user._id}>
-                          <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                            <span>{index + 1}</span>
-                          </td>
-                          <td>
-                            <div className="flex items-center gap-x-2">
-                              <img
-                                className="object-cover w-10 h-10 rounded-full"
-                                src={user.photoUrl}
-                                alt=""
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <h2 className="font-medium text-gray-800 dark:text-white ">
-                              {user.name}
-                            </h2>
-                          </td>
-                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {user.email}
-                          </td>
-                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {user.role}
-                          </td>
-
-                          <td className="px-4 py-4 text-sm whitespace-nowrap">
-                            <button
-                              onClick={() => {
-                                handleRole(user, "Admin");
-                              }}
-                              className={`px-3 py-1 text-xs rounded-full ${
-                                user.role === "Instructor" ||
-                                user.role === "Admin"
-                                  ? "bg-gray-200 text-gray-600"
-                                  : "text-indigo-500 dark:bg-gray-800 bg-indigo-100/60"
-                              }`}
-                              disabled={
-                                user.role === "Instructor" ||
-                                user.role === "Admin"
-                              }
-                            >
-                              Admin
-                            </button>
-                          </td>
-                          <td className="px-4 py-4 text-sm whitespace-nowrap ">
-                            <button
-                              onClick={() => {
-                                handleRole(user, "Instructor");
-                              }}
-                              className={`px-3 py-1 text-xs rounded-full ${
-                                user.role === "Instructor" ||
-                                user.role === "Admin"
-                                  ? "bg-gray-200 text-gray-600"
-                                  : "text-indigo-500 dark:bg-gray-800 bg-indigo-100/60"
-                              }`}
-                              disabled={
-                                user.role === "Instructor" ||
-                                user.role === "Admin"
-                              }
-                            >
-                              Instructor
-                            </button>
-                          </td>
-                        </tr>
-                      ))} */}
+                        {allClasses.map((cls, index) => (
+                          <tr key={cls._id}>
+                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                              <span>{index + 1}</span>
+                            </td>
+                            <td>
+                              <div className="flex items-center gap-x-2">
+                                <img
+                                  className="object-cover w-10 h-10 rounded-full"
+                                  src={cls.imageUrl}
+                                  alt=""
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <h2 className="font-medium text-gray-800 dark:text-white ">
+                                {cls.className}
+                              </h2>
+                            </td>
+                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              {cls.name}
+                            </td>
+                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              {cls.email}
+                            </td>
+                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              {cls.availableSeats}
+                            </td>
+                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              {cls.price}
+                            </td>
+                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <div className="space-x-2">
+                                <span>{cls.status}</span>
+                                <button
+                                  className={`btn btn-xs btn-success capitalize ${
+                                    cls.status === "Approved" ||
+                                    cls.status === "Denied"
+                                      ? "bg-gray-500 text-white"
+                                      : ""
+                                  }`}
+                                  onClick={() =>
+                                    handleStatus(cls._id, "Approved")
+                                  }
+                                  disabled={
+                                    cls.status === "Approved" ||
+                                    cls.status === "Denied"
+                                  }
+                                >
+                                  Approved
+                                </button>
+                                <button
+                                  className={`btn btn-xs btn-error capitalize ${
+                                    cls.status === "Approved" ||
+                                    cls.status === "Denied"
+                                      ? "bg-gray-500 text-white"
+                                      : ""
+                                  }`}
+                                  onClick={() =>
+                                    handleStatus(cls._id, "Denied")
+                                  }
+                                  disabled={
+                                    cls.status === "Approved" ||
+                                    cls.status === "Denied"
+                                  }
+                                >
+                                  Deny
+                                </button>
+                                <button className="btn btn-xs btn-neutral capitalize">
+                                  Send Feedback
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
