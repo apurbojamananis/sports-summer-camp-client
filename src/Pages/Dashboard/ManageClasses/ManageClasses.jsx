@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useRef } from "react";
 
 const ManageClasses = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -41,6 +42,26 @@ const ManageClasses = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const modalRef = useRef(null);
+  const openModal = () => {
+    if (modalRef.current) {
+      modalRef.current.showModal();
+    }
+  };
+
+  const closeModal = () => {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+  };
+
+  const handleModal = (event) => {
+    event.preventDefault();
+    const feedback = event.target.feedback.value;
+    console.log(feedback);
+    closeModal();
   };
 
   return (
@@ -186,9 +207,50 @@ const ManageClasses = () => {
                                 >
                                   Deny
                                 </button>
-                                <button className="btn btn-xs btn-neutral capitalize">
+                                <button
+                                  className={`btn btn-xs btn-neutral capitalize ${
+                                    cls.status === "Approved"
+                                      ? "bg-gray-500 text-white"
+                                      : ""
+                                  }`}
+                                  disabled={cls.status === "Approved"}
+                                  onClick={openModal}
+                                  // onClick={() => window.my_modal_5.showModal()}
+                                >
                                   Send Feedback
                                 </button>
+
+                                {/* Open the modal using ID.showModal() method */}
+                                <dialog
+                                  id="my_modal_5"
+                                  className="modal modal-bottom sm:modal-middle"
+                                  ref={modalRef}
+                                >
+                                  <form
+                                    method="dialog"
+                                    className="modal-box"
+                                    onSubmit={handleModal}
+                                  >
+                                    <h3 className="font-bold text-lg">
+                                      Your Feedback
+                                    </h3>
+                                    <textarea
+                                      name="feedback"
+                                      cols="30"
+                                      rows="5"
+                                      className="w-full border outline-none mt-5  p-3"
+                                    ></textarea>
+                                    <div className="modal-action">
+                                      <input
+                                        type="submit"
+                                        value="Send"
+                                        className="btn"
+                                      />
+                                    </div>
+                                  </form>
+                                </dialog>
+
+                                {/*  */}
                               </div>
                             </td>
                           </tr>
