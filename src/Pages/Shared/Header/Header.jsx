@@ -115,7 +115,7 @@ const Header = () => {
               <li className=" px-2 py-2 rounded mx-1">
                 <Link
                   className="hover:border-b-4 border-white pb-2 px-2"
-                  to="classes"
+                  to="/classes"
                 >
                   {" "}
                   Classes

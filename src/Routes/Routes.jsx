@@ -7,6 +7,8 @@ import SignUp from "../Pages/SignUp/SignUp";
 import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
 import AddClasses from "../Pages/Dashboard/InstructorDashboard/AddClasses/AddClasses";
 import ManageClasses from "../Pages/Dashboard/ManageClasses/ManageClasses";
+import Classes from "../Pages/Classes/Classes";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: "/manage-classes",
         element: <ManageClasses></ManageClasses>,
+      },
+      {
+        path: "/classes",
+        element: (
+          <PrivateRoute>
+            <Classes></Classes>
+          </PrivateRoute>
+        ),
       },
     ],
   },
