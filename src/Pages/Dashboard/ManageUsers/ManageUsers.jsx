@@ -1,4 +1,15 @@
+import { useQuery } from "react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+
 const ManageUsers = () => {
+  const [axiosSecure] = useAxiosSecure();
+  const { data: users = [], refetch } = useQuery(["users"], async () => {
+    const res = await axiosSecure.get("/users");
+    return res.data;
+  });
+
+  console.log(users);
+
   return (
     <div className="container mx-auto min-h-screen">
       <div>
