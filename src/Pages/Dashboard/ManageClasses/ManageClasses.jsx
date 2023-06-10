@@ -1,9 +1,10 @@
 import { useQuery } from "react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const ManageClasses = () => {
+  const [selectedClassId, setSelectedClassId] = useState(null);
   const [axiosSecure] = useAxiosSecure();
   const { data: allClasses = [], refetch } = useQuery(["users"], async () => {
     const res = await axiosSecure.get("/allClasses");
@@ -45,9 +46,10 @@ const ManageClasses = () => {
   };
 
   const modalRef = useRef(null);
-  const openModal = () => {
+  const openModal = (id) => {
     if (modalRef.current) {
       modalRef.current.showModal();
+      setSelectedClassId(id);
     }
   };
 
@@ -57,11 +59,34 @@ const ManageClasses = () => {
     }
   };
 
-  const handleModal = (event) => {
+  const handleModal = async (event) => {
     event.preventDefault();
     const feedback = event.target.feedback.value;
-    console.log(feedback);
     closeModal();
+    console.log(feedback, selectedClassId);
+
+    try {
+      const response = await axiosSecure.patch(
+        `/allClasses/feedback/${selectedClassId}`,
+        {
+          feedback,
+        }
+      );
+      console.log(response.data);
+
+      if (response.data.modifiedCount) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Feedback has been Sent!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        event.target.reset();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -209,12 +234,10 @@ const ManageClasses = () => {
                                 </button>
                                 <button
                                   className={`btn btn-xs btn-neutral capitalize ${
-                                    cls.status === "Approved"
-                                      ? "bg-gray-500 text-white"
-                                      : ""
+                                    cls.feedback ? "bg-gray-500 text-white" : ""
                                   }`}
-                                  disabled={cls.status === "Approved"}
-                                  onClick={openModal}
+                                  disabled={cls.feedback}
+                                  onClick={() => openModal(cls._id)}
                                   // onClick={() => window.my_modal_5.showModal()}
                                 >
                                   Send Feedback
@@ -238,9 +261,17 @@ const ManageClasses = () => {
                                       name="feedback"
                                       cols="30"
                                       rows="5"
+                                      required
                                       className="w-full border outline-none mt-5  p-3"
                                     ></textarea>
                                     <div className="modal-action">
+                                      <button
+                                        className="btn"
+                                        type="button"
+                                        onClick={closeModal}
+                                      >
+                                        Close
+                                      </button>
                                       <input
                                         type="submit"
                                         value="Send"
