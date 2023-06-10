@@ -1,15 +1,18 @@
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useRef, useState } from "react";
+import useAllClasses from "../../../Hooks/useAllClasses";
 
 const ManageClasses = () => {
+  const [allClasses, refetch] = useAllClasses();
+  console.log(allClasses);
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [axiosSecure] = useAxiosSecure();
-  const { data: allClasses = [], refetch } = useQuery(["users"], async () => {
-    const res = await axiosSecure.get("/allClasses");
-    return res.data;
-  });
+  // const { data: allClasses = [], refetch } = useQuery(["users"], async () => {
+  //   const res = await axiosSecure.get("/allClasses");
+  //   return res.data;
+  // });
   // console.log(allClasses);
 
   const handleStatus = async (id, status) => {
