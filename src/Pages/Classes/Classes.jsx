@@ -8,21 +8,63 @@ import Swal from "sweetalert2";
 const Classes = () => {
   const { user } = useContext(AuthContext);
   const [role] = useAdmin();
-  const [allClasses] = useAllClasses();
+
+  const [allClasses, refetch] = useAllClasses();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleSelectClass = () => {
+  const handleSelectClass = (classes) => {
     if (!user) {
       navigate("/login", { state: { from: location }, replace: true });
     } else {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your Class has been added to bookmarked",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      const classInfo = {
+        classId: classes._id,
+        imageUrl: classes.imageUrl,
+        email: user.email,
+        className: classes.className,
+        instructor: classes.name,
+        price: classes.price,
+      };
+
+      console.log(classInfo);
+      fetch("http://localhost:5000/selectedClasses", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(classInfo),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            const updatedAvailableSeats = parseInt(classes.availableSeats - 1);
+            console.log(updatedAvailableSeats, classes._id);
+            fetch(
+              `http://localhost:5000/allClasses/availableSeats/${classes._id}`,
+              {
+                method: "PATCH",
+                headers: {
+                  "content-type": "application/json",
+                },
+                body: JSON.stringify({ availableSeats: updatedAvailableSeats }),
+              }
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                refetch();
+                console.log(data);
+
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your Class has been added to bookmarked",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              });
+          }
+        });
     }
   };
   return (
@@ -36,7 +78,9 @@ const Classes = () => {
         {allClasses.map((classes) => (
           <div
             key={classes._id}
-            className="max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col"
+            className={`max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col ${
+              classes.availableSeats === 0 ? "bg-red-500" : ""
+            }`}
           >
             <img
               className="object-cover w-full h-48 mt-2 rounded-tl-lg rounded-tr-lg"
@@ -64,9 +108,17 @@ const Classes = () => {
                   role === "Admin" || role === "Instructor"
                     ? "bg-gray-400 cursor-not-allowed text-gray-600"
                     : "bg-neutral hover:transparent hover:outline hover:outline-white text-white"
+                } ${
+                  classes.availableSeats === 0
+                    ? "bg-gray-200 cursor-not-allowed"
+                    : ""
                 }`}
-                disabled={role === "Admin" || role === "Instructor"}
-                onClick={handleSelectClass}
+                disabled={
+                  role === "Admin" ||
+                  role === "Instructor" ||
+                  classes.availableSeats === 0
+                }
+                onClick={() => handleSelectClass(classes)}
               >
                 Select Class
               </button>

@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 import Swal from "sweetalert2";
 
@@ -50,11 +50,11 @@ const ManageUsers = () => {
         <section className="container px-4 mx-auto mt-20">
           <div className="flex items-center gap-x-3 justify-center">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-              Team members
+              All Users
             </h2>
 
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-              100 users
+              {users.length} users
             </span>
           </div>
 

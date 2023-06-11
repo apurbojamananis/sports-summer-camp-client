@@ -1,12 +1,10 @@
 // import { useQuery } from "react-query";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useRef, useState } from "react";
-import useAllClasses from "../../../Hooks/useAllClasses";
-
+import useAllClasses from "../../../../Hooks/useAllClasses";
 
 const ManageClasses = () => {
- 
   const [allClasses, refetch] = useAllClasses();
   console.log(allClasses);
   const [selectedClassId, setSelectedClassId] = useState(null);
@@ -198,7 +196,7 @@ const ManageClasses = () => {
                               {cls.availableSeats}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {cls.price}
+                              ${cls.price}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                               <div className="space-x-2">

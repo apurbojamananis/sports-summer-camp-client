@@ -37,6 +37,7 @@ const AddClasses = () => {
             imageUrl,
             name: user.displayName,
             email: user.email,
+            totalSeats: parseInt(availableSeats),
             availableSeats: parseInt(availableSeats),
             price: parseFloat(price),
             status: "Pending",
