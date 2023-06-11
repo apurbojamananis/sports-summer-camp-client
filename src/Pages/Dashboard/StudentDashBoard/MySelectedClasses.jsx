@@ -1,34 +1,14 @@
 import { FaTrash } from "react-icons/fa";
 
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../Providers/AuthProvider";
+
 
 import Swal from "sweetalert2";
-// import { useQuery } from "react-query";
-// import axios from "axios";
+import { Link } from "react-router-dom";
+import useSelectedClasses from "../../../Hooks/useSelectedClasses";
 
 const MySelectedClasses = () => {
-  const { user } = useContext(AuthContext);
-  const [mySelectedData, setMySelectedDate] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/mySelectedClasses/${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMySelectedDate(data);
-      });
-  }, [user?.email]);
-
-  //   const { data: mySelectedData = [], refetch } = useQuery(
-  //     [user?.email],
-  //     async () => {
-  //       const res = axios.get(
-  //         `http://localhost:5000/mySelectedClasses/${user?.email}`
-  //       );
-  //       refetch;
-  //       return res.data;
-  //     }
-  //   );
+  const [mySelectedClasses, refetch] = useSelectedClasses();
+  console.log(mySelectedClasses);
 
   const handleDelete = (id) => {
     console.log(id);
@@ -42,9 +22,7 @@ const MySelectedClasses = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
-      const remainingData = mySelectedData.filter((data) => data._id !== id);
-      setMySelectedDate(remainingData);
+      refetch();
     });
   };
 
@@ -57,7 +35,7 @@ const MySelectedClasses = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-            {mySelectedData.length} class
+            {mySelectedClasses.length} class
           </span>
         </div>
 
@@ -118,7 +96,7 @@ const MySelectedClasses = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {mySelectedData.map((myData, index) => (
+                    {mySelectedClasses.map((myData, index) => (
                       <tr key={myData._id}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                           <span>{index + 1}</span>
@@ -137,7 +115,7 @@ const MySelectedClasses = () => {
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <button className="btn btn-sm btn-neutral">
-                            Pay Now
+                            <Link to={`/payment/${myData._id}`}>Pay Now</Link>
                           </button>
                         </td>
                         <td className="px-10 py-4 text-sm whitespace-nowrap">

@@ -11,12 +11,12 @@ const Footer = () => {
                 <img className="w-auto h-7" src="./WhiteLogo.png" alt="" />
               </a>
 
-              <p className="max-w-sm mt-2 text-gray-400">
+              <p className="max-w-sm mt-3 text-gray-400">
                 Join 31,000+ other and never miss out on new tips, tutorials,
                 and more.
               </p>
 
-              <div className="flex mt-6 -mx-2">
+              <div className="flex mt-4 ">
                 <a
                   href="#"
                   className="mx-2text-gray-600 transition-colors duration-300 text-gray-300  hover:text-blue-400"
@@ -74,41 +74,41 @@ const Footer = () => {
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Tec
+                  Soccer
                 </a>
                 <a
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Music
+                  Martial Arts
                 </a>
                 <a
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Videos
+                  Judo
                 </a>
               </div>
 
               <div>
-                <h3 className=" uppercase text-white">Products</h3>
+                <h3 className=" uppercase text-white">Training Camp</h3>
                 <a
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Mega cloud
+                  Soccer Camp
                 </a>
                 <a
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Aperion UI
+                  Tennis Camp
                 </a>
                 <a
                   href="#"
                   className="block mt-2 text-sm  text-gray-400 hover:underline"
                 >
-                  Meraki UI
+                  Swimming Camp
                 </a>
               </div>
 
