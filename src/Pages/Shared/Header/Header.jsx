@@ -1,32 +1,41 @@
 import { Link } from "react-router-dom";
 import { FaBars, FaUserAlt } from "react-icons/fa";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import Swal from "sweetalert2";
-// import useAdmin from "../../../Hooks/useAdmin";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
-  // const [isAdmin] = useAdmin();
+  const [role, refetch] = useAdmin();
 
+  // console.log(role);
   // console.log(isAdmin);
-  // const [isAdmin, setIsAdmin] = useState(false);
-  // const [isInstructor, setIsInstructor] = useState(false);
-  // const [isStudent, setIsStudent] = useState(false);
 
-  // if (user && user?.role === "Admin") {
-  //   setIsAdmin(true);
-  // }
-  // if (user && user?.role === "Instructor") {
-  //   setIsInstructor(true);
-  // }
-  // if (user && user?.role === "Student") {
-  //   setIsStudent(true);
-  // }
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isInstructor, setIsInstructor] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
+  useEffect(() => {
+    setIsAdmin(false);
+    setIsInstructor(false);
+    setIsStudent(false);
+    if (user && role === "Admin") {
+      refetch;
+      setIsAdmin(true);
+    }
+    if (user && role === "Instructor") {
+      refetch;
+      setIsInstructor(true);
+    }
+    if (user && role === "Student") {
+      refetch;
+      setIsStudent(true);
+    }
+  }, [refetch, user, role]);
 
-  const isAdmin = true;
-  const isInstructor = false;
-  const isStudent = false;
+  // const isAdmin = true;
+  // const isInstructor = false;
+  // const isStudent = false;
 
   const handleLogout = () => {
     logout().then(() => {
@@ -122,7 +131,7 @@ const Header = () => {
                 </Link>
               </li>
 
-              {isAdmin && (
+              {user && isAdmin && (
                 <>
                   <li className=" px-2 py-2 rounded mx-1">
                     <Link
