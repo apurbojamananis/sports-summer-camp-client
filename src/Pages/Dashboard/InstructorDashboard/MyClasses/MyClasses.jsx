@@ -108,13 +108,16 @@ const MyClasses = () => {
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <span>{myClassData.status}</span>
                         </td>
+                        {/* Total Enrolled Student will update here */}
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <span>0</span>
                         </td>
+
+                        {/* TODO: Feedback Modal will have to update here */}
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <button className="btn btn-sm btn-white capitalize">
                             {myClassData.feedback
-                              ? "Feedback Here"
+                              ? "See Feedback"
                               : "No Feedback"}
                           </button>
                         </td>
