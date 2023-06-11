@@ -4,7 +4,9 @@ import Swal from "sweetalert2";
 import { useRef, useState } from "react";
 import useAllClasses from "../../../Hooks/useAllClasses";
 
+
 const ManageClasses = () => {
+ 
   const [allClasses, refetch] = useAllClasses();
   console.log(allClasses);
   const [selectedClassId, setSelectedClassId] = useState(null);

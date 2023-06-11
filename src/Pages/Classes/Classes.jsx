@@ -1,7 +1,30 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import useAdmin from "../../Hooks/useAdmin";
 import useAllClasses from "../../Hooks/useAllClasses";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { useContext } from "react";
+import Swal from "sweetalert2";
 
 const Classes = () => {
+  const { user } = useContext(AuthContext);
+  const [role] = useAdmin();
   const [allClasses] = useAllClasses();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSelectClass = () => {
+    if (!user) {
+      navigate("/login", { state: { from: location }, replace: true });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your Class has been added to bookmarked",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
   return (
     <div className="container mx-auto min-h-screen pb-20 pt-10">
       <div>
@@ -9,11 +32,11 @@ const Classes = () => {
           See All the Available Classes{" "}
         </h2>
       </div>
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center">
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center ">
         {allClasses.map((classes) => (
           <div
             key={classes._id}
-            className=" max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800  "
+            className="max-w-xs overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col"
           >
             <img
               className="object-cover w-full h-48 mt-2 rounded-tl-lg rounded-tr-lg"
@@ -23,11 +46,11 @@ const Classes = () => {
 
             <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
               <h1 className="text-lg font-bold text-white">${classes.price}</h1>
-              <button className="px-2 py-1 text-xs font-semibold text-gray-900  transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none">
+              <button className="px-2 py-1 text-xs font-semibold text-gray-900 transition-colors duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none">
                 {classes.availableSeats} Available
               </button>
             </div>
-            <div className="px-4 py-2">
+            <div className="px-4 py-2 flex-grow">
               <h3 className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 {classes.name}
               </h3>
@@ -35,8 +58,16 @@ const Classes = () => {
                 {classes.className}
               </h1>
             </div>
-            <div className="px-4 py-2 mb-0">
-              <button className="w-full bg-neutral py-2 text-white rounded-lg hover:transparent hover:outline hover:outline-white font-semibold">
+            <div className="px-4 py-2">
+              <button
+                className={`w-full py-2 rounded-lg font-semibold ${
+                  role === "Admin" || role === "Instructor"
+                    ? "bg-gray-400 cursor-not-allowed text-gray-600"
+                    : "bg-neutral hover:transparent hover:outline hover:outline-white text-white"
+                }`}
+                disabled={role === "Admin" || role === "Instructor"}
+                onClick={handleSelectClass}
+              >
                 Select Class
               </button>
             </div>
