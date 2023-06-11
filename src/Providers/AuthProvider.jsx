@@ -18,8 +18,8 @@ const auth = getAuth(app);
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
   // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
@@ -28,7 +28,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const updateUserProfile = (user, name, photo) => {
-    setLoading(true);
     return updateProfile(user, {
       displayName: name,
       photoURL: photo,
@@ -56,6 +55,7 @@ const AuthProvider = ({ children }) => {
           .then((res) => {
             // console.log(res.data.token);
             localStorage.setItem("access-token", res.data.token);
+            setLoading(false);
           });
       } else {
         localStorage.removeItem("access-token");
