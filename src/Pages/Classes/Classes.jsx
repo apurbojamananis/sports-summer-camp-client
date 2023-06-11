@@ -98,7 +98,7 @@ const Classes = () => {
               <h3 className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 {classes.name}
               </h3>
-              <h1 className="text-xl font-bold text-gray-800 uppercase dark:text-white mt-2">
+              <h1 className="text-xl font-bold text-gray-800 Capitalize dark:text-white mt-2">
                 {classes.className}
               </h1>
             </div>
@@ -110,7 +110,7 @@ const Classes = () => {
                     : "bg-neutral hover:transparent hover:outline hover:outline-white text-white"
                 } ${
                   classes.availableSeats === 0
-                    ? "bg-gray-200 cursor-not-allowed"
+                    ? "bg-red-500 cursor-not-allowed outline outline-white"
                     : ""
                 }`}
                 disabled={
@@ -120,7 +120,9 @@ const Classes = () => {
                 }
                 onClick={() => handleSelectClass(classes)}
               >
-                Select Class
+                {classes.availableSeats === 0
+                  ? "No Seat Available"
+                  : "Select Class"}
               </button>
             </div>
           </div>

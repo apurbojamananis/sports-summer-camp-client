@@ -1,6 +1,53 @@
 import { FaTrash } from "react-icons/fa";
 
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
+
+import Swal from "sweetalert2";
+// import { useQuery } from "react-query";
+// import axios from "axios";
+
 const MySelectedClasses = () => {
+  const { user } = useContext(AuthContext);
+  const [mySelectedData, setMySelectedDate] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/mySelectedClasses/${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMySelectedDate(data);
+      });
+  }, [user?.email]);
+
+  //   const { data: mySelectedData = [], refetch } = useQuery(
+  //     [user?.email],
+  //     async () => {
+  //       const res = axios.get(
+  //         `http://localhost:5000/mySelectedClasses/${user?.email}`
+  //       );
+  //       refetch;
+  //       return res.data;
+  //     }
+  //   );
+
+  const handleDelete = (id) => {
+    console.log(id);
+    fetch(`http://localhost:5000/selectedClasses/${id}`, {
+      method: "DELETE",
+    }).then(() => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Successfully Deleted",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      const remainingData = mySelectedData.filter((data) => data._id !== id);
+      setMySelectedDate(remainingData);
+    });
+  };
+
   return (
     <div className="min-h-screen mt-20">
       <section className="container px-4 mx-auto">
@@ -71,35 +118,40 @@ const MySelectedClasses = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    <tr>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <span>1</span>
-                      </td>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <span>Hello</span>
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        Design Director
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        authurmelo@example.com
-                      </td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <span>$70</span>
-                      </td>
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <button className="btn btn-sm btn-neutral">
-                          Pay Now
-                        </button>
-                      </td>
-                      <td className="px-10 py-4 text-sm whitespace-nowrap">
-                        <div className="flex items-center gap-x-6">
-                          <button className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-                            <FaTrash></FaTrash>
+                    {mySelectedData.map((myData, index) => (
+                      <tr key={myData._id}>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          <span>{index + 1}</span>
+                        </td>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                          <span>{myData.className}</span>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {myData.instructor}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {myData.email}
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <span>${myData.price}</span>
+                        </td>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <button className="btn btn-sm btn-neutral">
+                            Pay Now
                           </button>
-                        </div>
-                      </td>
-                    </tr>
+                        </td>
+                        <td className="px-10 py-4 text-sm whitespace-nowrap">
+                          <div className="flex items-center gap-x-6">
+                            <button
+                              className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"
+                              onClick={() => handleDelete(myData._id)}
+                            >
+                              <FaTrash></FaTrash>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
