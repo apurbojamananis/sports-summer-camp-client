@@ -13,6 +13,8 @@ import MySelectedClasses from "../Pages/Dashboard/StudentDashBoard/MySelectedCla
 import MyClasses from "../Pages/Dashboard/InstructorDashboard/MyClasses/MyClasses";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Payment from "../Pages/Payments/Payment";
+import MyEnrolledClasses from "../Pages/Dashboard/StudentDashBoard/MyEnrolledClasses";
+import MyPurchaseHistory from "../Pages/Dashboard/StudentDashBoard/MyPurchaseHistory";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
       {
         path: "/payment/:id",
         element: <Payment></Payment>,
+      },
+      {
+        path: "/enrolled-classes",
+        element: <MyEnrolledClasses></MyEnrolledClasses>,
+      },
+      {
+        path: "/purchase-history",
+        element: <MyPurchaseHistory></MyPurchaseHistory>,
       },
     ],
   },

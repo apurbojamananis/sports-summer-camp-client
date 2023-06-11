@@ -91,7 +91,7 @@ const Header = () => {
                       <Link to="selected-classes">My Selected Classes</Link>
                     </li>
                     <li className="py-3 hover:bg-[#212733] hover:text-white rounded-lg">
-                      <Link to="enrolled classes">My Enrolled Classes</Link>
+                      <Link to="enrolled-classes">My Enrolled Classes</Link>
                     </li>
                   </>
                 )}
