@@ -1,18 +1,14 @@
 import { FaTrash } from "react-icons/fa";
 
-
-
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import useSelectedClasses from "../../../Hooks/useSelectedClasses";
 
 const MySelectedClasses = () => {
   const [mySelectedClasses, refetch] = useSelectedClasses();
-  console.log(mySelectedClasses);
 
   const handleDelete = (id) => {
-    console.log(id);
-    fetch(`http://localhost:5000/selectedClasses/${id}`, {
+    fetch(`https://sports-summer-camp-server-apurbojamananis.vercel.app/selectedClasses/${id}`, {
       method: "DELETE",
     }).then(() => {
       Swal.fire({

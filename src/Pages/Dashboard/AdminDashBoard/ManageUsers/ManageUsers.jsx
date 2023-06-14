@@ -11,13 +11,11 @@ const ManageUsers = () => {
     return res.data;
   });
 
-  console.log(users);
   const handleRole = async (user, role) => {
     try {
       const response = await axiosSecure.patch(`/users/admin/${user._id}`, {
         role,
       });
-      console.log(response.data);
 
       if (response.data.modifiedCount) {
         refetch();
@@ -47,7 +45,7 @@ const ManageUsers = () => {
   return (
     <div className="container mx-auto min-h-screen">
       <div>
-        <section className="container px-4 mx-auto mt-20">
+        <section className="container px-4 mx-auto my-20">
           <div className="flex items-center gap-x-3 justify-center">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
               All Users

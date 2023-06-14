@@ -5,6 +5,7 @@ import "./CheckoutForm.css";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = ({ selectedId, price }) => {
   const stripe = useStripe();
@@ -15,6 +16,7 @@ const CheckoutForm = ({ selectedId, price }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
+  const navigate = useNavigate();
 
   //   console.log(selectedId);
 
@@ -23,7 +25,6 @@ const CheckoutForm = ({ selectedId, price }) => {
       axiosSecure
         .post("/create-payment-intent", { price: price })
         .then((res) => {
-          // console.log(res.data.clientSecret);
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -81,17 +82,18 @@ const CheckoutForm = ({ selectedId, price }) => {
         transactionId: paymentIntent.id,
         price,
         date: new Date(),
-        classId: selectedId.classId,
-        cartItems: selectedId._id,
+        allClassId: selectedId.classId,
+        selectedItemsId: selectedId._id,
         imageUrl: selectedId.imageUrl,
         instructor: selectedId.instructor,
         className: selectedId.className,
       };
       axiosSecure.post("/payments", payment).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.insertResult.insertedId) {
           // display confirm
-          console.log("Success");
+          navigate("/enrolled-classes");
+          // console.log("Success");
         }
       });
     }

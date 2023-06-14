@@ -5,29 +5,13 @@ import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Instructor = () => {
   const [allInstructor, setAllInstructor] = useState([]);
-  // const [axiosSecure] = useAxiosSecure();
-
-  // const {
-  //   data: allInstructor = [],
-  //   isLoading,
-  //   isFetching,
-  //   isRefetching,
-  // } = useQuery({
-  //   queryFn: async () => {
-  //     const response = await axiosSecure.get("/users/instructors");
-  //     return response.data;
-  //   },
-  // });
-  // console.log("isLoading", isLoading);
-  // console.log("isFetching", isFetching);
-  // console.log("isRefetching", isRefetching);
-  // console.log(allInstructor);
 
   useEffect(() => {
-    fetch("http://localhost:5000/users/instructors")
+    fetch(
+      "https://sports-summer-camp-server-apurbojamananis.vercel.app/users/instructors"
+    )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setAllInstructor(data);
       });
   }, []);

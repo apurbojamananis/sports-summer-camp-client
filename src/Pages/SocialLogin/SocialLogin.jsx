@@ -9,7 +9,6 @@ const SocialLogin = () => {
   const handleGooglSingIn = () => {
     googleSignIn().then((result) => {
       const loggedUser = result.user;
-      console.log(loggedUser);
 
       const saveUserData = {
         name: loggedUser.displayName,
@@ -18,16 +17,18 @@ const SocialLogin = () => {
         role: "student",
       };
 
-      fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(saveUserData),
-      })
+      fetch(
+        "https://sports-summer-camp-server-apurbojamananis.vercel.app/users",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUserData),
+        }
+      )
         .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
+        .then(() => {
           navigate("/");
         });
     });

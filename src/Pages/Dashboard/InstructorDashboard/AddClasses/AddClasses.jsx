@@ -19,7 +19,6 @@ const AddClasses = () => {
   const imageHostingUrl = `https://api.imgbb.com/1/upload?key=${ImageUploadKey}`;
 
   const onSubmit = (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("image", data.imageUrl[0]);
 
@@ -41,11 +40,10 @@ const AddClasses = () => {
             availableSeats: parseInt(availableSeats),
             price: parseFloat(price),
             status: "Pending",
+            totalEnrolled: 0,
           };
-          console.log(newClass);
 
           axiosSecure.post("/allClasses", newClass).then((data) => {
-            console.log("after posting new menu item", data.data);
             if (data.data.insertedId) {
               reset();
               Swal.fire({

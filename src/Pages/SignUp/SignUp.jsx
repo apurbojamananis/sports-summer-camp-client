@@ -18,9 +18,10 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, logout } = useContext(AuthContext);
   const [passwordShow, setPasswordShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
+
   const navigate = useNavigate();
   const [axiosSecure] = useAxiosSecure();
   const {
@@ -33,12 +34,9 @@ const SignUp = () => {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
   const onSubmit = (data) => {
-    console.log(data);
-
     createUser(data.email, data.password)
       .then(async (result) => {
         const createdUser = result.user;
-        console.log(createdUser);
 
         try {
           await updateUserProfile(createdUser, data.name, data.photoUrl);
@@ -50,11 +48,9 @@ const SignUp = () => {
             role: "Student",
           };
 
-          console.log(saveUserData);
-
           try {
             const res = await axiosSecure.post("/users", saveUserData);
-            console.log(res);
+
             if (res.data.insertedId) {
               Swal.fire({
                 position: "center",
@@ -63,7 +59,8 @@ const SignUp = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              navigate("/");
+              logout();
+              navigate("/login");
             }
           } catch (error) {
             console.log(error);
@@ -73,7 +70,14 @@ const SignUp = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+
+        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "User Already Created!",
+          });
+        }
       });
 
     reset();

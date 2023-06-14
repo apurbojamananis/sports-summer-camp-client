@@ -52,12 +52,12 @@ const MyEnrolledClasses = () => {
                         <span>Instructor</span>
                       </th>
 
-                      <th
+                      {/* <th
                         scope="col"
                         className="px-4 py-3.5 text-md font-semibold text-left rtl:text-right text-gray-500 dark:text-gray-400"
                       >
                         Instructor Email
-                      </th>
+                      </th> */}
 
                       <th
                         scope="col"
@@ -79,9 +79,9 @@ const MyEnrolledClasses = () => {
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                           {myData.instructor}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        {/* <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                           {myData.email}
-                        </td>
+                        </td> */}
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <span>${myData.price}</span>
                         </td>

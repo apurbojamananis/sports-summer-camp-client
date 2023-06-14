@@ -30,7 +30,7 @@ const Banner = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <div className="h-screen bg-[url('./banner1.png')] bg-cover">
+          <div className="h-screen bg-[url('https://i.ibb.co/XzZSpTh/banner1.png')] bg-cover">
             <div className="container mx-auto text-white flex h-full items-center ">
               <div className="md:w-[80%] lg:w-[60%] xl:w-[52%] px-5">
                 <h3 className="font-primary font-medium mb-5">
@@ -57,7 +57,7 @@ const Banner = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="h-screen bg-[url('./banner3.png')] bg-cover">
+          <div className="h-screen bg-[url('https://i.ibb.co/16r7nsr/banner3.png')] bg-cover">
             <div className="container mx-auto text-white flex h-full items-center ">
               <div className="md:w-[80%] lg:w-[60%] xl:w-[52%] px-5 ">
                 <h3 className="font-primary font-medium mb-5">
@@ -84,7 +84,7 @@ const Banner = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="h-screen bg-[url('./banner2.png')] bg-cover">
+          <div className="h-screen bg-[url('https://i.ibb.co/m8hgQ0F/banner2.png')] bg-cover">
             <div className="container mx-auto text-white flex h-full items-center ">
               <div className="md:w-[80%] lg:w-[60%] xl:w-[52%] px-5 ">
                 <h3 className="font-primary font-medium mb-5">

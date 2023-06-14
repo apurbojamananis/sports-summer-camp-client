@@ -43,7 +43,7 @@ const Header = () => {
     });
   };
   return (
-    <div className="bg-[#212733] text-white">
+    <div className="bg-[#212733] text-white sticky top-0 z-50">
       <div className="container mx-auto md:min-h-[100px]">
         <div className="navbar md:pt-6">
           <div className="navbar-start">

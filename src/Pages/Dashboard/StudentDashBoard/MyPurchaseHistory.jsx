@@ -1,19 +1,25 @@
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import { useContext, useEffect, useState } from "react";
+// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import { AuthContext } from "../../../Providers/AuthProvider";
+import usePurchaseHistory from "../../../Hooks/usePurchaseHistory";
 
 const MyPurchaseHistory = () => {
-  const [paymentData, setPaymentData] = useState([]);
+  // const [paymentData, setPaymentData] = useState([]);
 
-  const [secureAxios] = useAxiosSecure();
+  // const [secureAxios] = useAxiosSecure();
+  // const { user } = useContext(AuthContext);
+  const [myPaymentHistory] = usePurchaseHistory();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await secureAxios.get("/payment/ascending");
-      setPaymentData(response.data);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await secureAxios.get(
+  //       `/payment/ascending/${user.email}`
+  //     );
+  //     setPaymentData(response.data);
+  //   };
 
-    fetchData();
-  }, [secureAxios]);
+  //   fetchData();
+  // }, [secureAxios]);
 
   return (
     <div className="min-h-screen mt-20">
@@ -25,7 +31,7 @@ const MyPurchaseHistory = () => {
             </h2>
 
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-              {paymentData.length} class
+              {myPaymentHistory.length} class
             </span>
           </div>
           {/* <div>
@@ -73,13 +79,6 @@ const MyPurchaseHistory = () => {
                         scope="col"
                         className="px-4 py-3.5 text-md font-semibold text-left rtl:text-right text-gray-500 dark:text-gray-400"
                       >
-                        Instructor Email
-                      </th>
-
-                      <th
-                        scope="col"
-                        className="px-4 py-3.5 text-md font-semibold text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                      >
                         Purchase price
                       </th>
                       <th
@@ -91,7 +90,7 @@ const MyPurchaseHistory = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {paymentData.map((myData, index) => (
+                    {myPaymentHistory.map((myData, index) => (
                       <tr key={myData._id}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                           <span>{index + 1}</span>
@@ -105,9 +104,7 @@ const MyPurchaseHistory = () => {
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                           {myData.instructor}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {myData.email}
-                        </td>
+
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <span>${myData.price}</span>
                         </td>

@@ -1,20 +1,25 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
-// import useMyClasses from "../../../../Hooks/useAllClasses";
 
 const MyClasses = () => {
   const { user } = useContext(AuthContext);
   const [myAllClasses, setMyAllClasses] = useState([]);
+  const [selectedClassFeedback, setSelectedClassFeedback] = useState("");
 
-  //   const [myAllAddedClasses] = useMyClasses();
-  //   console.log(myAllAddedClasses);
   useEffect(() => {
-    fetch(`http://localhost:5000/allClasses/${user?.email}`)
+    fetch(
+      `https://sports-summer-camp-server-apurbojamananis.vercel.app/allClasses/${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setMyAllClasses(data);
       });
   }, [user]);
+
+  const handleFeedbackClick = (feedback) => {
+    setSelectedClassFeedback(feedback);
+    window.my_modal_2.showModal(); // Assuming you have defined this function to show the modal
+  };
   return (
     <div className="min-h-screen mt-20">
       <section className="container px-4 mx-auto">
@@ -110,17 +115,26 @@ const MyClasses = () => {
                         </td>
                         {/* Total Enrolled Student will update here */}
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <span>0</span>
+                          <span>{myClassData.totalEnrolled} Person</span>
                         </td>
 
-                        {/* TODO: Feedback Modal will have to update here */}
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button className="btn btn-sm btn-white capitalize">
+                          <button
+                            className="btn btn-sm btn-white capitalize"
+                            disabled={
+                              !myClassData.feedback ||
+                              myClassData.status === "Approved"
+                            }
+                            onClick={() =>
+                              handleFeedbackClick(myClassData.feedback)
+                            }
+                          >
                             {myClassData.feedback
                               ? "See Feedback"
                               : "No Feedback"}
                           </button>
                         </td>
+
                         <td className="px-10 py-4 text-sm whitespace-nowrap">
                           <button className="btn btn-sm btn-white">
                             Update
@@ -130,6 +144,20 @@ const MyClasses = () => {
                     ))}
                   </tbody>
                 </table>
+                <>
+                  {/* Modal */}
+                  <dialog id="my_modal_2" className="modal">
+                    <form method="dialog" className="modal-box">
+                      <h3 className="font-bold text-lg">Feedback!</h3>
+                      <p className="py-4">{selectedClassFeedback}</p>
+                    </form>
+                    <form method="dialog" className="modal-backdrop">
+                      <button>close</button>
+                    </form>
+                  </dialog>
+
+                  {/* modal close */}
+                </>
               </div>
             </div>
           </div>

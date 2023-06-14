@@ -9,19 +9,12 @@ const ManageClasses = () => {
   console.log(allClasses);
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [axiosSecure] = useAxiosSecure();
-  // const { data: allClasses = [], refetch } = useQuery(["users"], async () => {
-  //   const res = await axiosSecure.get("/allClasses");
-  //   return res.data;
-  // });
-  // console.log(allClasses);
 
   const handleStatus = async (id, status) => {
-    console.log(id, status);
     try {
       const response = await axiosSecure.patch(`/allClasses/status/${id}`, {
         status,
       });
-      console.log(response.data);
 
       if (response.data.modifiedCount) {
         refetch();
@@ -75,7 +68,6 @@ const ManageClasses = () => {
           feedback,
         }
       );
-      console.log(response.data);
 
       if (response.data.modifiedCount) {
         Swal.fire({
@@ -96,7 +88,7 @@ const ManageClasses = () => {
     <div>
       <div className="container mx-auto min-h-screen">
         <div>
-          <section className="container px-4 mx-auto mt-20">
+          <section className="container px-4 mx-auto my-20">
             <div className="flex items-center gap-x-3 justify-center">
               <h2 className="text-lg font-medium text-gray-800 dark:text-white">
                 Total Class
