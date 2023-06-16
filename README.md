@@ -1,6 +1,8 @@
-#Champplay 
+# Champplay
 
-##https://sports-summer-camp-5b046.web.app/
+## https://sports-summer-camp-5b046.web.app/
+
+## Server side repo: https://github.com/apurbojamananis/sports-summer-camp-server
 
 Used Packages/Technology:
 
